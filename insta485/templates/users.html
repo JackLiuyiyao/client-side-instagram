@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>  <!--Title in Header-->
+    <title>Insta485</title>
+    <style>
+
+      #explore{
+       
+        top: 18px;
+        left: 5px;
+        color: black;
+        display: inline-block;
+      }
+    
+      #username{
+        top: 18px;
+        left: 100px;
+        padding-left: 5px;
+        color: black;
+        display: inline-block;
+      }
+      .column {
+      float: left;
+      width: 22.33%;
+      padding: 5px;
+    }
+  
+
+      
+
+    
+    </style>
+    
+
+</head>
+
+<body>  
+  <!--Logo, Insta485, Explore, and Username Link-->
+    <div id="logotitle">
+      <div class="header" >
+        <a href="/" target="_parent">
+            <img src="/images/instagram_logo.png" alt="Instagram Logo" style="width:50px;height:60px;"/> 
+        </a>
+        <h1 id="insta_title"> Insta485 </h1>
+      </div>
+      
+      <div style="float: right;">
+        <a href="/explore/" id="explore" style="text-decoration:none"> explore |</a>
+        <a href="/users/{{logname}}/" id="username" style="text-decoration:none">{{logname}} </a>
+      </div>
+    
+    </div>
+
+    {%for profile in user_profile%}
+    <div>
+      <p style="color: black; font-size:40px; ">{{profile.username}}</p> 
+      
+      
+      {%if logname==profile.username%}
+      <p>
+        <a href="/accounts/edit/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">Edit profile</a>
+      </p>
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="/accounts/logout/" method="post" enctype="multipart/form-data">
+          <input type="submit" name="logout" value="Logout"/>
+        </form>
+        
+        {% if not profile.posts %}
+          <p> style="display: inline;"> 0 posts </p>
+          <p> No posts yet. </p>
+        {% else %}
+          <p style="display: inline;"> {{profile.num_posts}} posts </p>
+        {% endif %}
+
+          
+        {%for follow in profile.num_followers%}
+          {%if follow.followers==1%}
+            <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} follower</a>
+          {%else%}
+            <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} followers</a>
+          {%endif%}
+        {%endfor%}
+        
+        {%for follow in profile.num_following%}
+        <a href="/users/{{logname}}/following/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.following}} following</a>
+        {%endfor%}
+
+       
+         <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="{{url_for('update_posts', target=url_for('show_users', user_url_slug=logname))}}" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" accept="image/*" required/>
+          <input type="submit" name="create_post" value="upload new post"/>
+          <input type="hidden" name="operation" value="create"/>
+        </form>
+     
+
+      {%else%}
+       {%for verify in no_follows%}
+        {%if profile.username != verify.not_following%}
+          <p style="text-decoration:none; color: black">following</p>
+            <form action="/following/?target=/" method="post" enctype="multipart/form-data">
+              <input type="submit" name="unfollow" value="unfollow"/>
+              <input type="hidden" name="username" value="{{profile.username}}"/>
+              <input type="hidden" name="operation" value="unfollow"/>
+            </form>
+        
+          
+          {%if profile.has_post=="no"%}
+              <p style="display: inline;"> 0 post
+              
+                {%for follow in profile.num_followers%}
+                    {%if follow.followers==1%}
+                    <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} follower</a>
+                      {%else%}
+                    <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} followers</a>
+                  
+                    {%endif%}
+                {%endfor%}
+                
+                {%for follow in profile.num_following%}
+                <a href="/users/{{profile.username}}/following/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.following}} following</a>
+                {%endfor%}
+              </p>
+              <p> No posts yet.</p>
+          
+          {%else%}
+            {%if profile.num_posts==1%}
+            <p style="display: inline;"> {{profile.num_posts}} post
+            {%else%} 
+            <p style="display: inline;"> {{profile.num_posts}} posts
+              {%endif%}
+              
+              <!--<p style="text-decoration:none; color: black">{{total_posts}} </p>-->
+              {%for follow in profile.num_followers%}
+                {%if follow.followers==1%}
+              <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} follower</a>
+                {%else%}
+              <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} followers</a>
+             
+                {%endif%}
+              {%endfor%}
+              
+              {%for follow in profile.num_following%}
+              
+              <a href="/users/{{profile.username}}/following/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.following}} following</a>
+              {%endfor%}
+            </p>
+      
+
+          {%endif%}
+        {%else%}
+          <p style="text-decoration:none; color: black">not following </p>
+            <form action="/following/?target=/" method="post" enctype="multipart/form-data">
+              <input type="submit" name="follow" value="follow"/>
+              <input type="hidden" name="username" value="{{profile.username}}"/>
+              <input type="hidden" name="operation" value="follow"/>
+            </form>
+            
+          
+         {%if profile.has_post=="no"%}
+                <p style="display: inline;"> 0 post
+                
+                  <!--<p style="text-decoration:none; color: black">{{total_posts}} </p>-->
+                  {%for follow in profile.num_followers%}
+                  <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} followers</a>
+                  {%endfor%}
+                  
+                  {%for follow in profile.num_following%}
+                  <a href="/users/{{profile.username}}/following/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.following}} following</a>
+                  {%endfor%}
+                </p>
+                <p> No posts yet.</p>
+            
+            {%else%}
+              
+              {%if profile.num_posts==1%}
+                <p style="display: inline;"> {{profile.num_posts}} post
+              {%else%} 
+                <p style="display: inline;"> {{profile.num_posts}} posts
+                {%endif%}
+                
+                <!--<p style="text-decoration:none; color: black">{{total_posts}} </p>-->
+                {%for follow in profile.num_followers%}
+                {%if follow.followers==1%}
+              <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} follower</a>
+                {%else%}
+              <a href="/users/{{profile.username}}/followers/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.followers}} followers</a>
+                {%endif%}
+              {%endfor%}
+
+              {%for follow in profile.num_following%}
+                <a href="/users/{{profile.username}}/following/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{follow.following}} following</a>
+              {%endfor%}
+              </p>
+  
+
+            {%endif%}
+          {%endif%}  
+        {%endfor%}
+      {%endif%}  
+      
+      <p style="color: black;">{{profile.fullname}}</p>
+
+      </div>
+
+      
+      {% for post_info in profile.posts %}
+      
+      <div class="column">
+        <a href="/posts/{{post_info.postid}}/" target="_parent">  
+          <img src="/uploads/{{post_info.filename}}" alt="Post Image" style="width:290px;height:300px;"/> 
+        </a>
+      </div>
+      {% endfor %}
+      {%endfor%}
+  </body>
+</html>

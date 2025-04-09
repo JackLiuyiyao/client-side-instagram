@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>  <!--Title in Header-->
+    <title>Insts485</title>
+    <style>
+      #explore1{
+        
+         top: 18px;
+         left: 5px;
+         color: black;
+         display: inline-block;
+       }
+     
+       #explore2{
+        
+        top: 18px;
+        left: 5px;
+        color: black;
+        display: inline-block;
+      }
+      #explore3{
+        
+        top: 18px;
+        left: 5px;
+        color: black;
+        display: inline-block;
+      }
+     
+       #username{
+         top: 18px;
+         left: 100px;
+         padding-left: 5px;
+         color: black;
+         display: inline-block;
+       }
+     
+       
+     </style>
+
+</head>
+
+
+<body>  
+  <!--Logo, Insta485, Explore, and Username Link-->
+    <div id="logotitle">
+      <div class="header" >
+        <a href="/" target="_parent">
+            <img src="/images/instagram_logo.png" alt="Instagram Logo" style="width:50px;height:60px;"/> 
+        </a>
+        <h1 id="insta_title"> Insta485 </h1>
+      </div>
+
+      <div style="float: right;">
+        <a href="/explore/" id="explore1" style="text-decoration:none"> explore |</a>  
+       
+        <a href="/users/{{logname}}/" id="username" style="text-decoration:none">{{logname}} </a>
+       
+      </div>
+    
+    </div>
+   
+     <!--Posted Images-->
+    {% for post in post_info %}
+        <div>
+          <a href="/users/{{post.owner}}/" target="_parent">
+            <img src="/uploads/{{post.users_filename}}" alt="User Profile Photo" style="width:50px;height:60px;"/>
+            
+              <h3 >{{post.owner}}</h3>
+          </a>
+          
+          <span style="float: right;"> 
+            <a href="/posts/{{post.postid}}/"  style="text-decoration:none"> {{post.created}}</a>
+          </span>
+          
+          <img src="/uploads/{{post.posts_filename}}" alt="Image Posted" style="width:500px;height:600px;"/> 
+          
+          {%if post.has_post=="no"%}
+            <p> 0 likes</p>
+          {%else%}
+              {%if post.num_likes|int>1%} 
+                  <p> {{post.num_likes}} likes</p>
+              {%else%}
+                  <p> {{post.num_likes}} like</p>
+              {%endif%}
+          {%endif%}
+          
+          
+          {% if not post.like_owner %}
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="/likes/?target=/posts/{{post.postid}}/" method="post" enctype="multipart/form-data">
+              <input type="submit" name="like" value="like"/>
+              <input type="hidden" name="operation" value="like"/>
+              <input type="hidden" name="postid" value="{{post.postid}}"/>
+            </form>
+          {% else %}
+            <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+            <form action="/likes/?target=/posts/{{post.postid}}/" method="post" enctype="multipart/form-data">
+              <input type="submit" name="unlike" value="unlike"/>
+              <input type="hidden" name="operation" value="unlike"/>
+              <input type="hidden" name="postid" value="{{post.postid}}"/>
+            </form>
+          {%endif%}
+          
+          {%for comment in post.comments%}
+              {%if comment.owner==logname%}
+                <div>
+                  <p > <a href="/users/{{comment.owner}}/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{comment.owner}}</a> {{comment.text}} </p>
+                  <form action="/comments/?target=/posts/{{post.postid}}/" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="operation" value="delete"/>
+                    <input type="hidden" name="commentid" value="comment.commentid"/>
+                    <input type="submit" name="uncomment" value="delete"/>
+                  </form>
+                </div>
+                {%else%}
+                  <div>
+                    <p > <a href="/users/{{comment.owner}}/" target="_parent" style="text-decoration:none; color: black; font-weight: bold;">{{comment.owner}}</a> {{comment.text}} </p>
+                  </div>
+                {%endif%}
+          {%endfor%}
+       
+
+        
+        <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+        <form action="/comments/?target=/posts/{{post.postid}}/" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="operation" value="create"/>
+          <input type="hidden" name="postid" value="{{post.postid}}"/>
+          <input type="text" name="text" required/>
+          <input type="submit" name="comment" value="comment"/>
+        </form>
+         
+        
+        {%if post.owner==logname%}
+        <form action="/posts/?target=/users/{{logname}}/" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="operation" value="delete"/>
+          <input type="hidden" name="postid" value="{{post.postid}}"/>
+          <input type="submit" name="delete" value="delete this post"/>
+        </form>
+        {%endif%}
+
+
+      {% endfor %}
+    </div>
+  </body>
+
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .home {
+        padding-right: 600px;
+      }
+    </style>
+    <title>insta485</title>
+  </head>
+  <body>
+    <div>
+    <a href="/" class="home">{{text}}</a>
+    <a href="/accounts/login/"> Link to login</a>
+    <form action="/accounts/?target=/accounts/edit/" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" required/>
+      <input type="text" name="fullname" required/>
+      <input type="text" name="username" required/>
+      <input type="text" name="email" required/>
+      <input type="password" name="password" required/>
+      <input type="submit" name="signup" value="sign up"/>
+      <input type="hidden" name="operation" value="create"/>
+    </form>
+    </div>
+  </body>
+</html>

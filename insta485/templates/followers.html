@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>  <!--Title in Header-->
+    <title>Insts485</title>
+    <style>
+      #explore1{
+        
+         top: 18px;
+         left: 5px;
+         color: black;
+         display: inline-block;
+       }
+     
+       #explore1{
+        
+        top: 18px;
+        left: 5px;
+        color: black;
+        display: inline-block;
+      }
+      #explore1{
+        
+        top: 18px;
+        left: 5px;
+        color: black;
+        display: inline-block;
+      }
+     
+       #username{
+         top: 18px;
+         left: 100px;
+         padding-left: 5px;
+         color: black;
+         display: inline-block;
+       }
+     
+       
+     </style>
+
+    </head> 
+
+
+    <body>  
+        <!--Logo, Insta485, Explore, and Username Link-->
+            <div id="logotitle">
+            <div class="header" >
+                <a href="/" target="_parent">
+                    <img src="/images/instagram_logo.png" alt="Instagram Logo" style="width:50px;height:60px;"/> 
+                </a>
+                <h1 id="insta_title"> Insta485 </h1>
+            </div>
+
+            <div style="float: right;">
+                <a href="/explore/" id="explore1" style="text-decoration:none"> explore |</a>
+                <a href="/users/{{logname}}/" id="username" style="text-decoration:none">{{logname}} </a>
+            </div>
+            </div>
+
+            <h2> Followers </h2>
+
+            {% for follow in follower_info %}
+              {% if follow.logname_follows %}
+                <div>        
+                  <img src="/uploads/{{follow.filename}}" alt="Post Image" style="width:100px;height:200px;"/> 
+                    
+                  <a href="/users/{{follow.username}}/" target="_parent"> {{follow.username}} </a>
+                  <p style="color: black;"> following</p>
+                  <form action="/following/?target=/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="unfollow" value="unfollow"/>
+                    <input type="hidden" name="username" value="{{follow.username}}"/>
+                    <input type="hidden" name="operation" value="unfollow"/>
+                  </form>
+                </div>
+              {% else %}  
+                <div>                
+                  <img src="/uploads/{{follow.filename}}" alt="Post Image" style="width:100px;height:200px;"/> 
+                    
+                  <a href="/users/{{follow.username}}/" target="_parent"> {{follow.username}} </a>
+                  <p style="color: black;"> not following</p>
+                  <form action="/following/?target=/" method="post" enctype="multipart/form-data">
+                    <input type="submit" name="follow" value="follow"/>
+                    <input type="hidden" name="username" value="{{follow.username}}"/>
+                    <input type="hidden" name="operation" value="follow"/>
+                  </form>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+    </body>
+
+</html>

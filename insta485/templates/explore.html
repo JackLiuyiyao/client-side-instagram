@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>  <!--Title in Header-->
+    <title>Insta485</title>
+    <style>
+
+      #explore{
+       
+        top: 18px;
+        left: 5px;
+        color: black;
+        display: inline-block;
+      }
+    
+      #username{
+        top: 18px;
+        left: 100px;
+        padding-left: 5px;
+        color: black;
+        display: inline-block;
+      }
+     
+    </style>
+    
+
+</head>
+
+<body>  
+  <!--Logo, Insta485, Explore, and Username Link-->
+    <div id="logotitle">
+      <div class="header" >
+        <a href="/" target="_parent">
+            <img src="/images/instagram_logo.png" alt="Instagram Logo" style="width:50px;height:60px;"/> 
+        </a>
+        <h1 id="insta_title"> Insta485 </h1>
+      </div>
+
+      <div style="float: right;">
+        <a href="/explore/" id="explore" style="text-decoration:none"> explore |</a>
+        <a href="/users/{{logname}}/" id="username" style="text-decoration:none"> {{logname}} </a>
+      </div>
+    </div>
+
+    <div>
+        <p style="color: black; font-size:30px;">Discover People</p>
+        {% for item in not_following %}            
+          <img src="{{url_for('serve_images', filename=item.filename)}}" alt="user Image" style="width:100px;height:200px;"/> 
+          
+          <a href="/users/{{item.username}}/" target="_parent"> {{item.username}} </a>
+          
+          <!-- DO NOT CHANGE THIS (aside from where we say 'FIXME') -->
+          <form action="{{url_for('follow_unfollow_user', target=url_for('show_explore'))}}"
+          method="post" enctype="multipart/form-data">
+            <input type="submit" name="follow" value="follow"/>
+            <input type="hidden" name="username" value="{{item.username}}"/>
+            <input type="hidden" name="operation" value="follow"/>
+          </form>
+      
+        {% endfor %}
+    </div>
+</html>

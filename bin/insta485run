@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# insta485run
+#
+# Clean, build and start server
+#
+# Maggie Tian <tianmy@umich.edu>, Alexia Arthur <insert email here>, Jack Liu <insert email here>
+
+
+# Stop on errors, print commands
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+set -x
+
+if [ ! -f "var/insta485.sqlite3" ]; then
+    echo "Error: The database file '/var/insta485.sqlite3' does not exist."
+    exit 1  # Exit with a non-zero exit code
+fi
+
+# reset db
+./bin/insta485db reset
+
+# serve
+npx webpack --watch & 
+flask --app insta485 --debug run --host 0.0.0.0 --port 8000

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .home {
+        padding-right: 600px;
+      }
+    </style>
+    <title>insta485</title>
+  </head>
+  <body>
+    <div>
+    <a href="/" class="home"> Link to Home</a>
+    <a href="/explore/">Explore</a>
+    <a href="/users/{{logname}}/">{{logname}}</a>
+    <p>{logname}</p>
+    <form action="/accounts/?target=" method="post" enctype="multipart/form-data">
+      <input type="submit" name="delete" value="confirm delete account"/>
+      <input type="hidden" name="operation" value="delete"/>
+    </form>
+    </div>
+  </body>
+</html>

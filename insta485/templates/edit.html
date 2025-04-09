@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+      .home {
+        padding-right: 600px;
+      }
+    </style>
+    <title>insta485</title>
+  </head>
+  <body>
+    <div>
+    <a href="/" class="home"> Link to Home</a>
+    <a href="/explore/">Explore</a>
+    <a href="/users/{{logname}}/">{{logname}}</a>
+    <img src="{{owner_img_url}}" alt="pic{{logname}}"/>
+    <p>{{logname}}</p>
+    <a href="/accounts/password/"> Link to password</a>
+    <a href="/accounts/delete/"> Link to delete</a>
+    <form action="/accounts/?target=" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" accept="image/*"/>
+      <input type="text" name="fullname" value="{{fullname}}" required/>
+      <input type="text" name="email" value="{{email}}" required/>
+      <input type="submit" name="update" value="submit"/>
+      <input type="hidden" name="operation" value="edit_account"/>
+    </form>
+    </div>
+  </body>
+</html>
