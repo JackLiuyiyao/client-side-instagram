@@ -3,7 +3,7 @@
 This project is a client-side web application that replicates the core functionality of Instagram.  
 It was built as part of EECS 485 at the University of Michigan.
 
-## 📸 Features
+## Features
 - Responsive, single-page application (SPA) built with JavaScript, HTML, and CSS
 - Dynamic photo feed with infinite scrolling
 - User authentication and session management (login, logout, registration)
@@ -12,7 +12,7 @@ It was built as part of EECS 485 at the University of Michigan.
 - Like and comment on posts
 - RESTful API integration with a backend server
 
-## 🛠️ Technologies Used
+## Technologies Used
 - JavaScript (ES6+)
 - HTML5
 - CSS3
@@ -20,7 +20,7 @@ It was built as part of EECS 485 at the University of Michigan.
 - Webpack (build tool)
 - Babel (JavaScript compiler)
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js and npm installed
